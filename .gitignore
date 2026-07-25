@@ -1,0 +1,34 @@
+# Python / Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv/
+
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints/
+
+# TensorFlow / Keras artifacts
+*.h5
+# Note: models/cnn_model.keras is part of repository or generated, keep models folder
+
+# Datasets and temp uploads
+data/*.ubyte
+data/*.gz
+app/static/uploads/*
+!app/static/uploads/.gitkeep
+
+# Operating System
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Project explanation docs (not for repo)
+project_explanations/

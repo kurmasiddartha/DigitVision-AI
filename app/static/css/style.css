@@ -1,0 +1,601 @@
+/* ========================================
+   DigitVision AI — Simple Clean Dark Theme
+   ======================================== */
+
+:root {
+    --bg:        #111827;
+    --bg-card:   #1f2937;
+    --bg-input:  #111827;
+    --border:    #374151;
+
+    --text:      #f9fafb;
+    --text-sub:  #9ca3af;
+    --text-muted:#6b7280;
+
+    --accent:    #38bdf8;
+    --accent-dk: #0ea5e9;
+    --success:   #34d399;
+    --danger:    #f87171;
+
+    --radius:    8px;
+    --radius-lg: 12px;
+}
+
+/* Reset */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* ── Layout ─────────────────────────────── */
+.app-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 900px) {
+    .dashboard-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Navbar ──────────────────────────────── */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius);
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #000;
+}
+
+.brand-text h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.badge {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    background: rgba(56, 189, 248, 0.12);
+    color: var(--accent);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+.nav-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* ── Buttons ─────────────────────────────── */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 16px;
+    border-radius: var(--radius);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s, opacity 0.2s;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: #000;
+}
+.btn-primary:hover { background: var(--accent-dk); }
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+}
+.btn-outline:hover { background: rgba(255,255,255,0.05); }
+
+.btn-danger {
+    background: rgba(248,113,113,0.12);
+    border: 1px solid rgba(248,113,113,0.3);
+    color: var(--danger);
+}
+.btn-danger:hover { background: rgba(248,113,113,0.2); }
+
+.btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* ── Cards ───────────────────────────────── */
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.card-header h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-header h2 i { color: var(--accent); }
+
+.card-header p {
+    font-size: 12px;
+    color: var(--text-sub);
+    margin-top: 2px;
+}
+
+/* ── Tabs ────────────────────────────────── */
+.tab-switcher {
+    display: flex;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 3px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 7px 14px;
+    background: transparent;
+    border: none;
+    color: var(--text-sub);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.tab-btn.active {
+    background: var(--border);
+    color: var(--accent);
+}
+
+.tab-content { display: none; flex-direction: column; gap: 14px; }
+.tab-content.active { display: flex; }
+
+/* ── Canvas ──────────────────────────────── */
+.canvas-wrapper {
+    width: 280px;
+    height: 280px;
+    margin: 0 auto;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+#digit-canvas {
+    background: #000;
+    cursor: crosshair;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.canvas-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.brush-size-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-sub);
+}
+
+.brush-size-control input[type="range"] {
+    accent-color: var(--accent);
+    width: 90px;
+}
+
+.btn-group { display: flex; gap: 8px; }
+
+/* ── Presets ─────────────────────────────── */
+.preset-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+}
+
+.preset-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.preset-buttons { display: flex; gap: 6px; }
+
+.preset-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: var(--radius);
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-weight: 700;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+}
+.preset-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── Upload ──────────────────────────────── */
+.upload-dropzone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius-lg);
+    padding: 36px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+.upload-dropzone:hover { border-color: var(--accent); }
+.upload-dropzone.dragover { border-color: var(--accent); background: rgba(56,189,248,0.05); }
+
+.upload-icon { font-size: 36px; color: var(--accent); margin-bottom: 10px; }
+.upload-dropzone p { font-weight: 600; font-size: 14px; }
+.upload-dropzone span { font-size: 12px; color: var(--text-muted); }
+.file-hidden { display: none; }
+
+.upload-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+.upload-preview img {
+    max-width: 180px;
+    max-height: 180px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+}
+
+/* ── Prediction Display ──────────────────── */
+.prediction-display {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 18px;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+}
+
+.digit-badge-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.result-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.digit-hero {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--radius-lg);
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    font-weight: 700;
+    color: #000;
+}
+
+.confidence-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.confidence-value {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.confidence-bar-bg {
+    width: 100%;
+    height: 6px;
+    background: var(--border);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.confidence-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 999px;
+    transition: width 0.5s ease;
+}
+
+.latency-tag {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* ── Probability Bars ────────────────────── */
+.probabilities-wrapper h3,
+.gradcam-wrapper h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-sub);
+    margin-bottom: 8px;
+}
+
+.probability-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.prob-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+}
+
+.prob-digit {
+    width: 16px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.prob-track {
+    flex: 1;
+    height: 8px;
+    background: var(--bg-input);
+    border-radius: 999px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.prob-fill {
+    height: 100%;
+    background: #374151;
+    border-radius: 999px;
+    transition: width 0.3s ease;
+}
+
+.prob-fill.top-pred { background: var(--accent); }
+
+.prob-percent {
+    width: 42px;
+    text-align: right;
+    color: var(--text-sub);
+    font-size: 11px;
+}
+
+/* ── Grad-CAM ────────────────────────────── */
+.gradcam-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.gradcam-box {
+    width: 100%;
+    min-height: 110px;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.gradcam-view {
+    max-width: 120px;
+    border-radius: var(--radius);
+}
+
+.gradcam-placeholder {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.gradcam-placeholder i {
+    font-size: 22px;
+    margin-bottom: 4px;
+    display: block;
+}
+
+/* ── Toggle Switch ───────────────────────── */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 38px;
+    height: 21px;
+}
+
+.switch input { display: none; }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: var(--border);
+    border-radius: 21px;
+    transition: background 0.2s;
+}
+
+.slider:before {
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    left: 3px;
+    bottom: 3px;
+    background: var(--text-muted);
+    border-radius: 50%;
+    transition: transform 0.2s, background 0.2s;
+}
+
+input:checked + .slider { background: var(--accent-dk); }
+input:checked + .slider:before {
+    transform: translateX(17px);
+    background: #fff;
+}
+
+/* ── History Table ───────────────────────── */
+.table-responsive { overflow-x: auto; }
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.history-table th {
+    text-align: left;
+    padding: 10px 12px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+}
+
+.history-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+/* ── Modal ───────────────────────────────── */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    width: 90%;
+    max-width: 560px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-close {
+    background: transparent;
+    border: none;
+    color: var(--text-sub);
+    font-size: 22px;
+    cursor: pointer;
+    line-height: 1;
+}
+.modal-close:hover { color: var(--text); }
+
+.model-stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.stat-card {
+    background: var(--bg-input);
+    padding: 12px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-title { font-size: 11px; color: var(--text-muted); }
+.stat-value  { font-size: 13px; font-weight: 600; color: var(--accent); }
+
+/* ── Footer ──────────────────────────────── */
+.app-footer {
+    text-align: center;
+    padding: 14px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* ── Utilities ───────────────────────────── */
+.text-center { text-align: center; }
+.text-muted  { color: var(--text-muted); }
+.hidden      { display: none !important; }
+.empty-state { color: var(--text-muted); font-size: 12px; padding: 10px 0; }
+
+.canvas-hint {
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+}

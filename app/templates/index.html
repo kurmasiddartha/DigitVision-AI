@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handwritten Digit Recognition | Deep Learning AI Studio</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Dark CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Navigation Bar -->
+        <header class="navbar">
+            <div class="brand">
+                <div class="brand-logo">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>DigitVision AI</h1>
+                    <span class="badge">CNN Production Engine</span>
+                </div>
+            </div>
+            <div class="nav-actions">
+                <button id="btn-model-info" class="btn btn-outline">
+                    <i class="fa-solid fa-circle-info"></i> Model Stats
+                </button>
+                <a href="#history-section" class="btn btn-outline">
+                    <i class="fa-solid fa-clock-rotate-left"></i> History
+                </a>
+            </div>
+        </header>
+
+        <!-- Main Content Layout -->
+        <main class="dashboard-grid">
+            <!-- Left Panel: Drawing Canvas & Upload -->
+            <section class="card input-section">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-pen-nib"></i> Digit Input Studio</h2>
+                    <p>Draw any single digit (0-9) on the canvas or upload an image file</p>
+                </div>
+
+                <!-- Input Toggle Tabs -->
+                <div class="tab-switcher">
+                    <button class="tab-btn active" data-tab="draw-tab">
+                        <i class="fa-solid fa-paint-brush"></i> Canvas Draw
+                    </button>
+                    <button class="tab-btn" data-tab="upload-tab">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Upload Image
+                    </button>
+                </div>
+
+                <!-- Canvas Draw Tab View -->
+                <div id="draw-tab" class="tab-content active">
+                    <div class="canvas-wrapper">
+                        <canvas id="digit-canvas" width="280" height="280"></canvas>
+                    </div>
+                    <div class="canvas-hint">Draw a digit (0–9) on the canvas above</div>
+
+                    <!-- Canvas Control Panel -->
+                    <div class="canvas-controls">
+                        <div class="brush-size-control">
+                            <label for="brush-size"><i class="fa-solid fa-sliders"></i> Stroke:</label>
+                            <input type="range" id="brush-size" min="12" max="32" value="22">
+                            <span id="brush-size-val">22px</span>
+                        </div>
+                        <div class="btn-group">
+                            <button id="btn-clear" class="btn btn-danger">
+                                <i class="fa-solid fa-trash-can"></i> Clear
+                            </button>
+                            <button id="btn-predict-canvas" class="btn btn-primary btn-glow">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> Predict Digit
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Quick Preset Digits -->
+                    <div class="preset-section">
+                        <span class="preset-label">Preset Test Digits:</span>
+                        <div class="preset-buttons">
+                            <button class="preset-btn" data-digit="0">0</button>
+                            <button class="preset-btn" data-digit="1">1</button>
+                            <button class="preset-btn" data-digit="2">2</button>
+                            <button class="preset-btn" data-digit="3">3</button>
+                            <button class="preset-btn" data-digit="5">5</button>
+                            <button class="preset-btn" data-digit="7">7</button>
+                            <button class="preset-btn" data-digit="8">8</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Upload Tab View -->
+                <div id="upload-tab" class="tab-content">
+                    <div class="upload-dropzone" id="dropzone">
+                        <i class="fa-solid fa-file-image upload-icon"></i>
+                        <p>Drag & Drop handwritten digit image here</p>
+                        <span>or click to browse files (PNG, JPG, BMP)</span>
+                        <input type="file" id="file-input" accept="image/*" class="file-hidden">
+                    </div>
+                    <div id="upload-preview-container" class="upload-preview hidden">
+                        <img id="upload-preview-img" src="" alt="Uploaded Digit">
+                        <button id="btn-predict-upload" class="btn btn-primary btn-glow">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Predict Uploaded Image
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Panel: Prediction Results & Analytics -->
+            <section class="card results-section">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-chart-pie"></i> Real-Time AI Predictions</h2>
+                    <p>Convolutional Neural Network classification & explainability analysis</p>
+                </div>
+
+                <!-- Main Prediction Output Box -->
+                <div class="prediction-display">
+                    <div class="digit-badge-container">
+                        <span class="result-label">Predicted Digit</span>
+                        <div id="predicted-digit" class="digit-hero">?</div>
+                    </div>
+                    <div class="confidence-container">
+                        <span class="result-label">Model Confidence</span>
+                        <div class="confidence-value" id="confidence-val">--%</div>
+                        <div class="confidence-bar-bg">
+                            <div class="confidence-bar-fill" id="confidence-fill" style="width: 0%;"></div>
+                        </div>
+                        <span class="latency-tag" id="latency-val"><i class="fa-solid fa-bolt"></i> Latency: -- ms</span>
+                    </div>
+                </div>
+
+                <!-- Probability Bar Chart Distribution -->
+                <div class="probabilities-wrapper">
+                    <h3><i class="fa-solid fa-bars-staggered"></i> Class Probability Distribution (0 - 9)</h3>
+                    <div class="probability-bars" id="prob-bars">
+                        <!-- Dynamic probability bars inserted via JS -->
+                        <div class="empty-state">Run a prediction to view probability spectrum</div>
+                    </div>
+                </div>
+
+                <!-- Grad-CAM Heatmap Explainability -->
+                <div class="gradcam-wrapper">
+                    <div class="gradcam-header">
+                        <h3><i class="fa-solid fa-eye"></i> Grad-CAM Visual Explainability</h3>
+                        <label class="switch">
+                            <input type="checkbox" id="gradcam-toggle" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div id="gradcam-container" class="gradcam-box">
+                        <img id="gradcam-img" src="" class="gradcam-view hidden" alt="Grad-CAM Heatmap">
+                        <div id="gradcam-placeholder" class="gradcam-placeholder">
+                            <i class="fa-solid fa-layer-group"></i>
+                            <p>Grad-CAM highlights neural feature activations</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Toolbar -->
+                <div class="results-actions">
+                    <button id="btn-export-report" class="btn btn-outline" disabled>
+                        <i class="fa-solid fa-file-pdf"></i> Download Report
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Prediction History Log Table -->
+        <section id="history-section" class="card history-card">
+            <div class="card-header">
+                <h2><i class="fa-solid fa-clock-rotate-left"></i> Session Prediction History</h2>
+                <p>Recent digit inferences processed during this session</p>
+            </div>
+            <div class="table-responsive">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th># ID</th>
+                            <th>Predicted Digit</th>
+                            <th>Confidence</th>
+                            <th>Inference Latency</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-tbody">
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">No inferences recorded yet</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>Built with TensorFlow/Keras, OpenCV, Flask, and Modern Web UI</p>
+        </footer>
+    </div>
+
+    <!-- Model Stats Modal -->
+    <div id="model-modal" class="modal hidden">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-microchip"></i> Model Architecture & Performance</h3>
+                <button class="modal-close" id="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="model-stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-title">Architecture</span>
+                        <span class="stat-value">CNN (3 Conv Blocks)</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-title">Input Dimensions</span>
+                        <span class="stat-value">28 x 28 x 1 Grayscale</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-title">Optimizer</span>
+                        <span class="stat-value">Adam (lr=0.001)</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-title">Loss Function</span>
+                        <span class="stat-value">Sparse Categorical Crossentropy</span>
+                    </div>
+                </div>
+                <div id="modal-metrics-container" class="metrics-details">
+                    <!-- Dynamic metrics payload from /api/model-info -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
