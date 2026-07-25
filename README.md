@@ -18,7 +18,7 @@ Designed as an industry-standard portfolio project targeting **Machine Learning 
 - **Deep Convolutional Neural Network**: Multi-block CNN with Batch Normalization, Max Pooling, and Dropout regularization achieving **>99% Test Accuracy**.
 - **Visual Explainability (Grad-CAM)**: Real-time Gradient-weighted Class Activation Mapping highlighting neural network attention regions.
 - **Interactive Dark Dashboard**: Modern web client with HTML5 canvas drawing pad, stroke controls, preset digits, drag-and-drop file upload, live probability spectrums, and downloadable PDF reports.
-- **Comprehensive Interview Preparation**: 12 detailed educational guides in `project_explanations/` covering math, code, and placement Q&A.
+
 
 ---
 
@@ -82,20 +82,7 @@ MNIST-Digit-Recognition/
 ├── notebooks/                # Exploratory Data Analysis & experiments
 │   └── mnist_eda_and_experiments.ipynb
 │
-├── project_explanations/     # 12 In-Depth Educational Markdown Tutorials
-│   ├── 01_Project_Overview.md
-│   ├── 02_Project_Structure.md
-│   ├── 03_MNIST_Dataset.md
-│   ├── 04_Data_Loading.md
-│   ├── 05_Image_Preprocessing.md
-│   ├── 06_CNN_Architecture.md
-│   ├── 07_Model_Training.md
-│   ├── 08_Model_Evaluation.md
-│   ├── 09_Model_Saving.md
-│   ├── 10_Prediction.md
-│   ├── 11_Web_Application.md
-│   └── 12_Interview_Questions.md
-│
+
 └── app/                      # Web Application Layer (Flask)
     ├── app.py                # REST API endpoints
     ├── templates/
@@ -174,15 +161,7 @@ Navigate to `http://127.0.0.1:5000` in your web browser.
 
 ---
 
-## 🎓 Project Explanations & Interview Prep
 
-The `project_explanations/` folder contains 12 comprehensive markdown guides walking through every phase of the project from beginner concepts to advanced ML interview questions:
-- [01_Project_Overview.md](project_explanations/01_Project_Overview.md)
-- [06_CNN_Architecture.md](project_explanations/06_CNN_Architecture.md)
-- [10_Prediction.md](project_explanations/10_Prediction.md) (Grad-CAM Math)
-- [12_Interview_Questions.md](project_explanations/12_Interview_Questions.md) (Top Tech Company Q&A)
-
----
 
 ## 🔮 Future Improvements
 
